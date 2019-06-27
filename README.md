@@ -88,14 +88,23 @@
 **其他算法**
 中心度算法(Centralities)：
 （1）PageRank (页面排名)
-（2）ArticleRank
+
+（2）ArticleRank
+
 （3）Betweenness Centrality (中介中心度)
+
 （4）Closeness Centrality (接近中心度)
+
 （5）Harmonic Centrality
+
 社区检测算法(Community detection)：
+
 （1）Louvain (鲁汶算法)
+
 （2）Label Propagation (标签传播)
+
 （3）Connected Components (连通组件)
+
 （4）Strongly Connected Components (强连通组件)
 （5）Triangle Counting / Clustering Coefficient (三角计数/聚类系数)
 路径搜索算法(Path finding)：
@@ -106,7 +115,21 @@
 （5）A* （6）Yen’s K-shortest paths
 （7）Random Walk (随机漫步)
 
-相似性算法(Similarity)：（1）Jaccard Similarity (Jaccard相似度)（2）Cosine Similarity (余弦相似度)（3）Pearson Similarity (Pearson相似度)（4）Euclidean Distance (欧氏距离)（5）Overlap Similarity (重叠相似度)
-链接预测(Link Prediction)：（1）Adamic Adar（2）Common Neighbors（3）Preferential Attachment（4）Resource Allocation（5）Same Community（6）Total Neighbors
-预处理算法(Preprocessing)：（1）One Hot Encoding
+相似性算法(Similarity)：
+（1）Jaccard Similarity (Jaccard相似度)
+（2）Cosine Similarity (余弦相似度)
+（3）Pearson Similarity (Pearson相似度)
+（4）Euclidean Distance (欧氏距离)
+（5）Overlap Similarity (重叠相似度)
+
+链接预测(Link Prediction)：
+（1）Adamic Adar
+（2）Common Neighbors
+（3）Preferential Attachment
+（4）Resource Allocation
+（5）Same Community
+（6）Total Neighbors
+
+预处理算法(Preprocessing)：
+（1）One Hot Encoding
 
