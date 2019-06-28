@@ -113,6 +113,7 @@
 ![rank](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/linkpredict3.png)
 
 **其他算法**
+
 中心度算法(Centralities)：
 
 （1）PageRank (页面排名)
