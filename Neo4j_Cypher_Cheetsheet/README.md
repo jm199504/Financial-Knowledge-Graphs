@@ -212,3 +212,32 @@ match (a)-[:likes]->(b) eturn b.name
 
 match (p) where p.name = 'Jim' return keys(p)/properties(p)/id(p)
 
+7.读取文件导入
+
+7.1读取网络资源csv文件
+
+load csv with header from 'url:www.download.com/abc.csv' as line
+
+create (:Track{trackId:line.id,name:line.name,length:line.length})
+
+7.2分批读取网络资源csv文件（default=1000）
+
+using periodic commit (800)
+
+load csv with header from 'url:www.download.com/abc.csv' as line
+
+create (:Track{trackId:line.id,name:line.name,length:line.length})
+
+7.3读取本地文件
+
+load csv with headers from 'file://00000.csv' as line
+
+create (:Data{date:line['date'],open:line['open']})
+
+(fieldterminator ';') //自定义分隔符
+
+※本地csv文件必须是utf-8格式
+
+※需要导入neo4j数据库目录的import目录下
+
+※本地csv包含column必须添加with headers
