@@ -1,19 +1,18 @@
 ## Cypher Cheetsheet
 
-
 **个人小结：**
 
-①节点属性使用()
+1.节点属性使用()
 
-②关系属性使用[]
+2.关系属性使用[]
 
-③where中使用"="
+3.where中使用"="
 
-④{……}中使用":"
+4.{……}中使用":"
 
-⑤关系建立使用(m)-[:r]->(n)
+5.关系建立使用(m)-[:r]->(n)
 
-⑥正则使用"=~"
+6.正则使用"=~"
 
 
 
@@ -235,8 +234,10 @@ create (:Data{date:line['date'],open:line['open']})
 
 (fieldterminator ';') //自定义分隔符
 
-※本地csv文件必须是utf-8格式
+**※本地csv文件必须是utf-8格式**
 
-※需要导入neo4j数据库目录的import目录下
+**※需要导入neo4j数据库目录的import目录下**
 
-※本地csv包含column必须添加with headers
+**※本地csv包含column必须添加with headers**
+
+8.
