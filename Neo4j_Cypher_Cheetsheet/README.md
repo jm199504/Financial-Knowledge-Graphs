@@ -211,15 +211,15 @@ match (a)-[:likes]->(b) eturn b.name
 
 match (p) where p.name = 'Jim' return keys(p)/properties(p)/id(p)
 
-7.读取文件导入
+**7.读取文件导入**
 
-7.1读取网络资源csv文件
+**7.1读取网络资源csv文件**
 
 load csv with header from 'url:www.download.com/abc.csv' as line
 
 create (:Track{trackId:line.id,name:line.name,length:line.length})
 
-7.2分批读取网络资源csv文件（default=1000）
+**7.2分批读取网络资源csv文件（default=1000）**
 
 using periodic commit (800)
 
@@ -227,7 +227,7 @@ load csv with header from 'url:www.download.com/abc.csv' as line
 
 create (:Track{trackId:line.id,name:line.name,length:line.length})
 
-7.3读取本地文件
+**7.3读取本地文件**
 
 load csv with headers from 'file://00000.csv' as line
 
