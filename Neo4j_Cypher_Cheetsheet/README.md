@@ -240,4 +240,8 @@ create (:Data{date:line['date'],open:line['open']})
 
 **※本地csv包含column必须添加with headers**
 
+<<<<<<< HEAD
 8.
+=======
+※本地csv包含column必须添加with headers
+>>>>>>> 64e4f5fc2233b32df7642974c7e7b5e5dbe0b023
