@@ -2,17 +2,23 @@
 
 ### 一、个人小结：
 
-1.节点属性使用()
-
-2.关系属性使用[]
-
-3.where中使用"="
-
-4.{……}中使用":"
-
-5.关系建立使用(m)-[:r]->(n)
-
-6.正则使用"=~"
+> 1.节点属性使用()
+>
+> 2.关系属性使用[]
+>
+> 3.where中使用"="
+>
+> 4.{……}中使用":"
+>
+> 5.关系建立使用(m)-[:r]->(n)
+>
+> 6.正则使用"=~"
+>
+> 7.节点或者关系(/[变量名:类型{属性名:属性值}]/)
+>
+> 8.网页版打开数据库http://localhost:7474/browser/>
+>
+> 9.匹配关系时需要基于p=(m)-[r]->(n)返回p，而不是返回r（显示空）
 
 ### 二、基础语法
 
@@ -210,6 +216,10 @@ match (a)-[:likes]->(b) eturn b.name
 
 match (p) where p.name = 'Jim' return keys(p)/properties(p)/id(p)
 
+**6.20匹配分页返回**
+
+ match (n) where n.name='John' return n skip 10 limit 10
+
 **7.读取文件导入**
 
 **7.1读取网络资源csv文件**
@@ -239,4 +249,6 @@ create (:Data{date:line['date'],open:line['open']})
 **※需要导入neo4j数据库目录的import目录下**
 
 **※本地csv包含column必须添加with headers**
+
+**8.foreach关键字**
 
