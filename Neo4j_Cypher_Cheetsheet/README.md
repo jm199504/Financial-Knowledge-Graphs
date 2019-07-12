@@ -16,7 +16,7 @@
 >
 > 7.节点或者关系(/[变量名:类型{属性名:属性值}]/)
 >
-> 8.网页版打开数据库http://localhost:7474/browser/>
+> 8.网页版打开数据库http://localhost:7474/browser/
 >
 > 9.匹配关系时需要基于p=(m)-[r]->(n)返回p，而不是返回r（显示空）
 
@@ -68,7 +68,13 @@ match (a)-[r:knows]->(b) delete r,b
 
 match (n{name: "Mary"}) detach delete n
 
+**3.3删除所有关系*
 
+match p=()-[]-() delete p
+
+**3.4删除所有节点**
+
+match (m) delete m
 
 **4.merge关键字（存在直接返回；不存在则新建并返回）：**
 
