@@ -8,7 +8,7 @@
 
 方式对比
 
-![rank](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/compare.png)
+<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/compare.png)" width="500">
 
 **知识图谱构建流程**
 
@@ -64,41 +64,47 @@
 
 **数据获取**
 
-![rank](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/obtain.png)
+<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/obtain.png">
 
-![rank](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/obtain2.png)
+<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/obtain2.png">
 
 **数据预处理**
 
-![rank](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/preprocess.png)
+<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/preprocess.png">
 
-![rank](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/preprocess2.png)
+<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/preprocess2.png">
 
 **数据交互（Sample）**
 
-![rank](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/sample.png)
+<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/sample.png">
 
 **数据存储（创建实体）**
 
-![rank](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/createEntity.png)
+<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/createEntity.png">
 
 **数据存储（创建关系）**
 
-![rank](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/createRelation.png)
+<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/createRelation.png">
 
 **数据可视化查询**
 
 查询与“平安银行”相关信息（所属概念板块、发布公告、属于深股通/沪股通、股东信息）
 
-![rank](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/match.png)
+<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/match.png">
 
 插入股票间相关系数之后，显示与“平安银行”所有相关信息
 
-![rank](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/match2.png)
+<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/match2.png">
 
 查询“平安银行”与“万科A”的对数收益的相关系数
 
-![rank](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/match3.png)
+<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/match3.png">
+
+**导入已开源的图算法（仅简单的统计算法）**
+
+（1）下载graph-algorithms-algo-3.5.4.0.jar复制到对应数据库的plugin文件夹下
+（2）修改数据库目录下的conf中neo4j.conf，添加dbms.security.procedures.unrestricted=algo.*
+其中N(u)是与节点u相邻的节点集合。A(x,y)为0表明节点x和y不接近，该值越高表明两个节点间的亲密度越大。
 
 **链路预测算法**
 
