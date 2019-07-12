@@ -8,7 +8,7 @@
 
 方式对比
 
-<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/compare.png)" width="500">
+<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/compare.png" width="500">
 
 **知识图谱构建流程**
 
