@@ -238,7 +238,7 @@ create (:Track{trackId:line.id,name:line.name,length:line.length})
 
 **7.3读取本地文件**
 
-load csv with headers from 'file://00000.csv' as line
+load csv with headers from 'file:///00000.csv' as line
 
 create (:Data{date:line['date'],open:line['open']})
 
