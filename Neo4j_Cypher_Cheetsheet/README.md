@@ -68,7 +68,7 @@ match (a)-[r:knows]->(b) delete r,b
 
 match (n{name: "Mary"}) detach delete n
 
-**3.3删除所有关系*
+**3.3删除所有关系**
 
 match p=()-[]-() delete p
 
