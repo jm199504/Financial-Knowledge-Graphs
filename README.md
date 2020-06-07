@@ -1,5 +1,5 @@
 ## 小型金融知识图谱构流程示范
-By jm199504
+===By jm199504===
 
 存储方式
 
@@ -74,6 +74,24 @@ By jm199504
 <img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/preprocess.png">
 
 <img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/preprocess2.png">
+
+**文本数据处理**
+
+获取当前财经新闻，并使用中文格式保存和查看
+
+<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/textdata.png">
+
+使用wordcloud生成词云
+
+<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/wordcloud.png">
+
+数据清理：过滤无关词语
+
+<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/filter2.png">
+
+情感得分：
+
+<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/score.png">
 
 **数据交互（Sample）**
 
