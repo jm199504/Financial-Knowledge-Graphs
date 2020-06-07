@@ -83,7 +83,7 @@
 
 使用wordcloud生成词云
 
-<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/wordcloud.png">
+<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/wordcloud.jpg">
 
 数据清理：过滤无关词语
 
