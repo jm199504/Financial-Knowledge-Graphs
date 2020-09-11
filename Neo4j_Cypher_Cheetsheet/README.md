@@ -36,7 +36,7 @@ match(p1:Person),(p2:Person)
 
 where p1.name="Tom" and p2.name = "Jim"
 
-create(p1) -[:Relation{relation:"friend"] ->(p2);
+create(p1) -[:Relation{relation:"friend"}] ->(p2);
 
 
 
