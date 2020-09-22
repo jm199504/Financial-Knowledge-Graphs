@@ -1,6 +1,6 @@
 ## 小型金融知识图谱构流程示范
 ![](https://img.shields.io/static/v1?label=author&message=jm199504&color=green)
-![](https://img.shields.io/static/v1?label=LAGUAGE&message=python3.6+&color=orange)
+![](https://img.shields.io/static/v1?label=languages&message=python3.6+&color=orange)
 
 ### 知识图谱存储方式
 
