@@ -1,7 +1,7 @@
 ## 小型金融知识图谱构流程示范
 ![](https://img.shields.io/static/v1?label=Author&message=jm199504&color=green)
 ![](https://img.shields.io/static/v1?label=Languages&message=python3.6+&color=orange)
-![](https://img.shields.io/static/v1?label=UpdateTime&message=2020.09.22+&color=lightgrey)
+![](https://img.shields.io/static/v1?label=LastUpdateTime&message=2020.09.22+&color=lightgrey)
 
 ### 知识图谱存储方式
 
