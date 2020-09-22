@@ -29,7 +29,7 @@
 
 ---
 
-1.neo4j安装、启动、登录
+### neo4j安装、启动、登录
 
 （1）下载
 https://neo4j.com/download-center/ 
@@ -182,7 +182,7 @@ c.输入旧密码并输入新密码
 
 #### 其他算法
 
-中心度算法(Centralities)：
+##### 存储方式中心度算法(Centralities)：
 
 （1）PageRank (页面排名)
 
@@ -194,7 +194,7 @@ c.输入旧密码并输入新密码
 
 （5）Harmonic Centrality
 
-社区检测算法(Community detection)：
+##### 社区检测算法(Community detection)：
 
 （1）Louvain (鲁汶算法)
 
@@ -206,7 +206,7 @@ c.输入旧密码并输入新密码
 
 （5）Triangle Counting / Clustering Coefficient (三角计数/聚类系数)
 
-路径搜索算法(Path finding)：
+##### 路径搜索算法(Path finding)：
 
 （1）Minimum Weight Spanning Tree (最小权重生成树)
 
@@ -222,7 +222,7 @@ c.输入旧密码并输入新密码
 
 （7）Random Walk (随机漫步)
 
-相似性算法(Similarity)：
+##### 相似性算法(Similarity)：
 
 （1）Jaccard Similarity (Jaccard相似度)
 
@@ -234,7 +234,7 @@ c.输入旧密码并输入新密码
 
 （5）Overlap Similarity (重叠相似度)
 
-链接预测(Link Prediction)：
+##### 链接预测(Link Prediction)：
 
 （1）Adamic Adar
 
@@ -248,6 +248,6 @@ c.输入旧密码并输入新密码
 
 （6）Total Neighbors
 
-预处理算法(Preprocessing)：
+##### 预处理算法(Preprocessing)：
 
 （1）One Hot Encoding
