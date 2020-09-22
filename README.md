@@ -46,7 +46,9 @@ cd neo4j/bin
 在启动neo4j完成之后，终端会提示：Starting Neo4j.Started neo4j (pid 30914). It is available at http://localhost:7474/ There may be a short delay until the server is ready.
 
 a.打开 http://localhost:7474
+
 b.初始账户和密码均为neo4j（host类型选择bolt）
+
 c.输入旧密码并输入新密码
 
 （3）登录
