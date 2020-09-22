@@ -27,9 +27,7 @@
 
 - 多数为工业界场景
 
-方式对比
-
-<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/compare.png" width="600">
+---
 
 1.neo4j安装、启动、登录
 
@@ -53,6 +51,8 @@ c.输入旧密码并输入新密码
 解决该问题的过程：本人初次安装jdk1.8.0_261，启动neo4j出现：Unable to find any JVMs matching version "11"，提示安装jdk 11 version，于是下载了jdk-11.0.8，Mac OS可通过ls -la /Library/Java/JavaVirtualMachines/查看已安装的jdk及版本信息。
 
 启动过程可能出现的问题：启动时需要本地已安装JDK：https://www.oracle.com/java/technologies/javase-downloads.html
+
+---
 
 ### 知识图谱构建流程
 
