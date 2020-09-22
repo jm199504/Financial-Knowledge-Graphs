@@ -1,15 +1,58 @@
 ## 小型金融知识图谱构流程示范
-===By jm199504===
+![](https://img.shields.io/static/v1?label=author&message=jm199504&color=green)
 
 存储方式
 
-1. 基于RDF的存储
+主要包含资源描述框架(Resource Description Framework，RDF)和图数据库，其中RDF有以下特性：
 
-2. 基于图数据库的存储
+- 存储为三元组（Triple）
+
+- 标准的推理引擎
+
+- W3C标准
+
+- 易于发布数据
+
+- 多数为学术界场景
+
+图数据库有以下特性：
+
+- 节点和关系均可以包含属性
+
+- 没有标准的推理引擎
+
+- 图的遍历效率高
+
+- 事务管理
+
+- 多数为工业界场景
 
 方式对比
 
 <img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/compare.png" width="600">
+
+1.neo4j安装、启动、登录
+
+（1）下载
+https://neo4j.com/download-center/ 
+
+（2）启动
+
+# neo4j目录下
+cd neo4j/bin
+./neo4j start
+c.输入旧密码并输入新密码
+
+b.初始账户和密码均为neo4j（host类型选择bolt）
+
+a.打开 http://localhost:7474
+
+在启动neo4j完成之后，终端会提示：Starting Neo4j.Started neo4j (pid 30914). It is available at http://localhost:7474/ There may be a short delay until the server is ready.
+
+（3）登录
+解决该问题的过程：本人初次安装jdk1.8.0_261，启动neo4j出现：Unable to find any JVMs matching version "11"，提示安装jdk 11 version，于是下载了jdk-11.0.8，Mac OS可通过ls -la /Library/Java/JavaVirtualMachines/查看已安装的jdk及版本信息。
+
+启动过程可能出现的问题：启动时需要本地已安装JDK：https://www.oracle.com/java/technologies/javase-downloads.html
 
 **知识图谱构建流程**
 
