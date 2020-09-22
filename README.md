@@ -1,7 +1,7 @@
 ## 小型金融知识图谱构流程示范
 ![](https://img.shields.io/static/v1?label=author&message=jm199504&color=green)
 
-### 存储方式
+### 知识图谱存储方式
 
 主要包含资源描述框架(Resource Description Framework，RDF)和图数据库，其中RDF有以下特性：
 
