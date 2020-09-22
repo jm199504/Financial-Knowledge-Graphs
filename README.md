@@ -1,7 +1,7 @@
 ## 小型金融知识图谱构流程示范
 ![](https://img.shields.io/static/v1?label=author&message=jm199504&color=green)
 
-存储方式
+### 存储方式
 
 主要包含资源描述框架(Resource Description Framework，RDF)和图数据库，其中RDF有以下特性：
 
@@ -36,27 +36,27 @@
 （1）下载
 https://neo4j.com/download-center/ 
 
-（2）启动
+（2）启动（neo4j目录）
 
-# neo4j目录下
+```
 cd neo4j/bin
 ./neo4j start
-c.输入旧密码并输入新密码
-
-b.初始账户和密码均为neo4j（host类型选择bolt）
-
-a.打开 http://localhost:7474
+```
 
 在启动neo4j完成之后，终端会提示：Starting Neo4j.Started neo4j (pid 30914). It is available at http://localhost:7474/ There may be a short delay until the server is ready.
+
+a.打开 http://localhost:7474
+b.初始账户和密码均为neo4j（host类型选择bolt）
+c.输入旧密码并输入新密码
 
 （3）登录
 解决该问题的过程：本人初次安装jdk1.8.0_261，启动neo4j出现：Unable to find any JVMs matching version "11"，提示安装jdk 11 version，于是下载了jdk-11.0.8，Mac OS可通过ls -la /Library/Java/JavaVirtualMachines/查看已安装的jdk及版本信息。
 
 启动过程可能出现的问题：启动时需要本地已安装JDK：https://www.oracle.com/java/technologies/javase-downloads.html
 
-**知识图谱构建流程**
+### 知识图谱构建流程
 
-**1.数据获取**
+#### 1.数据获取
 
 (1)股票基本信息
 
@@ -72,7 +72,7 @@ a.打开 http://localhost:7474
 
 (7)股票价格信息
 
-**2.数据预处理**
+#### 2.数据预处理
 
 (1)基本信息存在空值   
 
@@ -84,17 +84,17 @@ a.打开 http://localhost:7474
 
 (5)保留股票价格交易日为242（众数）&计算皮尔逊相关系数
 
-**3.数据存储**
+#### 3.数据存储
 
 (1)明确实体&关系    
 
 (2)使用py2neo交互neo4j创建节点和关系
 
-**4.数据可视化查询**
+#### 4.数据可视化查询
 
 (1)基于Crypher语言
 
-**5.相关应用**
+#### 5.相关应用
 
 (1)中心度算法(Centralities)    
 
@@ -106,19 +106,19 @@ a.打开 http://localhost:7474
 
 (5)链接预测(Link Prediction)
 
-**数据获取**
+#### 数据获取
 
 <img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/obtain.png">
 
 <img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/obtain2.png">
 
-**数据预处理**
+#### 数据预处理
 
 <img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/preprocess.png">
 
 <img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/preprocess2.png">
 
-**文本数据处理**
+#### 文本数据处理
 
 获取当前财经新闻，并使用中文格式保存和查看
 
@@ -136,19 +136,19 @@ a.打开 http://localhost:7474
 
 <img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/score.png">
 
-**数据交互（Sample）**
+#### 数据交互（Sample）
 
 <img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/sample.png">
 
-**数据存储（创建实体）**
+#### 数据存储（创建实体）
 
 <img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/createEntity.png">
 
-**数据存储（创建关系）**
+#### 数据存储（创建关系）
 
 <img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/createRelation.png">
 
-**数据可视化查询**
+#### 数据可视化查询
 
 查询与“平安银行”相关信息（所属概念板块、发布公告、属于深股通/沪股通、股东信息）
 
@@ -162,13 +162,13 @@ a.打开 http://localhost:7474
 
 <img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/match3.png">
 
-**导入已开源的图算法（仅简单的统计算法）**
+#### 导入已开源的图算法
 
 （1）下载graph-algorithms-algo-3.5.4.0.jar复制到对应数据库的plugin文件夹下
 
 （2）修改数据库目录下的conf中neo4j.conf，添加dbms.security.procedures.unrestricted=algo.*
 
-**链路预测算法**
+#### 链路预测算法
 
 使用neo4j附带的图算法，其中链路预测部分主要基于判断相邻的两个节点之间的亲密程度作为评判标准
 
@@ -176,11 +176,11 @@ a.打开 http://localhost:7474
 
 ![rank](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/linkpredict2.png)
 
-**链路预测算法**
+#### 链路预测算法
 
 ![rank](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/linkpredict3.png)
 
-**其他算法**
+#### 其他算法
 
 中心度算法(Centralities)：
 
