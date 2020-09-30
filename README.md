@@ -1,17 +1,18 @@
 ## 小型金融知识图谱构流程示范
+
 ![](https://img.shields.io/static/v1?label=Author&message=jm199504&color=green)
 ![](https://img.shields.io/static/v1?label=Languages&message=python3.6+&color=orange)
 ![](https://img.shields.io/static/v1?label=LastUpdateTime&message=2020.09.30+&color=lightgrey)
 
 - [1 知识图谱存储方式](#1-知识图谱存储方式)
-- [2 关于neo4j安装、启动、登录](#2-关于neo4j安装启动登录)
+- [2 图数据库neo4j](#2-图数据库neo4j)
   - [2.1 下载](#21-下载)
   - [2.2 启动](#22-启动)
     - [2.2.1 打开 http://localhost:7474](#221-打开-httplocalhost7474)
     - [2.2.2 初始账户和密码均为neo4j（host类型选择bolt）](#222-初始账户和密码均为neo4jhost类型选择bolt)
     - [2.2.3 输入旧密码并输入新密码](#223-输入旧密码并输入新密码)
     - [2.2.3 登录](#223-登录)
-- [3. 知识图谱构建流程](#3-知识图谱构建流程)
+- [3. 知识图谱数据准备](#3-知识图谱数据准备)
   - [3.1 数据接口](#31-数据接口)
   - [3.2 数据获取](#32-数据获取)
     - [3.2.1 股票基本信息](#321-股票基本信息)
@@ -47,7 +48,6 @@
     - [6.1.6 预处理算法(Preprocessing)](#616-预处理算法preprocessing)
   - [6.2 导入方法](#62-导入方法)
   - [6.3 链路预测算法](#63-链路预测算法)
-    - [链路预测算法](#链路预测算法)
 
 ## 1 知识图谱存储方式
 
@@ -69,7 +69,7 @@
 - 事务管理
 - 多数为工业界场景
 
-## 2 关于neo4j安装、启动、登录
+## 2 图数据库neo4j
 
 ### 2.1 下载
 
@@ -99,16 +99,18 @@ Starting Neo4j.Started neo4j (pid 30914). It is available at http://localhost:74
 启动前注意本地已安装JDK（建议安装JDK版本11）：https://www.oracle.com/java/technologies/javase-downloads.html
 
 完成安装JDK1.8.0_261后，在启动neo4j过程中出现了以下问题：
+
 ```
 Unable to find any JVMs matching version "11"
 ```
+
 解决：提示安装jdk 11 version，于是下载了jdk-11.0.8，Mac OS可通过`ls -la /Library/Java/JavaVirtualMachines/`查看已安装的jdk及版本信息。
 
 #### 2.2.3 登录
 
 ---
 
-## 3. 知识图谱构建流程
+## 3. 知识图谱数据准备
 
 ### 3.1 数据接口
 
@@ -354,6 +356,7 @@ corrdf.to_csv("financial_data\\corr.csv")
 ## 4 搭建金融知识图谱
 
 ### 4.1 连接
+
 具体代码可参考3.1 python操作neo4j-连接
 
 ```python
@@ -413,6 +416,7 @@ for i in holder.values:
 ```
 
 ### 4.5 创建关系
+
 股票-股东、股票-概念、股票-公告、股票-股通
 
 ```python
@@ -496,6 +500,7 @@ for i in corr.values:
 - Harmonic Centrality
 
 #### 6.1.2 社区检测算法(Community detection)   
+
 - Louvain (鲁汶算法)
 
 - Label Propagation (标签传播)
@@ -635,16 +640,11 @@ RETURN algo.linkprediction.adamicAdar(p1, p2, {relationshipQuery: "FRIENDS"}) AS
 
 <img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/match3.png">
 
-
-
-
-
 ![rank](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/linkpredict.png)
 
 ![rank](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/linkpredict2.png)
 
-#### 链路预测算法
+链路预测算法
 
 ![rank](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/linkpredict3.png)
-
 
