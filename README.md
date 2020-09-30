@@ -4,6 +4,7 @@
 ![](https://img.shields.io/static/v1?label=Languages&message=python3.6+&color=orange)
 ![](https://img.shields.io/static/v1?label=LastUpdateTime&message=2020.09.30+&color=lightgrey)
 
+- [小型金融知识图谱构流程示范](#小型金融知识图谱构流程示范)
 - [1 知识图谱存储方式](#1-知识图谱存储方式)
 - [2 图数据库neo4j](#2-图数据库neo4j)
   - [2.1 下载](#21-下载)
@@ -48,6 +49,7 @@
     - [6.1.6 预处理算法(Preprocessing)](#616-预处理算法preprocessing)
   - [6.2 导入方法](#62-导入方法)
   - [6.3 链路预测算法](#63-链路预测算法)
+  - [6.4 链路预测其它算法](#64-链路预测其它算法)
 
 ## 1 知识图谱存储方式
 
@@ -144,7 +146,7 @@ stock_basic.rename(columns=basic_rename, inplace=True)
 stock_basic.to_csv('financial_data\\stock_basic.csv', encoding='gbk')
 ```
 
-
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/basic_info.png?raw=true)
 
 #### 3.2.2 股票持有股东信息    
 
@@ -163,7 +165,7 @@ holders.to_csv('financial_data\\stock_holders.csv', encoding='gbk')
 holders = pro.holders(ts_code='000001.SZ', start_date='20180101', end_date='20181231')
 ```
 
-
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/holders.png?raw=true)
 
 #### 3.2.3 股票概念信息   
 
@@ -178,7 +180,7 @@ for i in range(358):
 concept_details.to_csv('financial_data\\stock_concept.csv', encoding='gbk')
 ```
 
-
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/concept.png?raw=true)
 
 #### 3.2.4 股票公告信息   
 
@@ -190,7 +192,7 @@ for i in range(3610):
 notices = pro.anns(ts_code='000001.SZ', start_date='20180101', end_date='20181231', year='2018')
 ```
 
-
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/notices.png?raw=true)
 
 #### 3.2.5 财经新闻信息
 
@@ -199,7 +201,7 @@ news = pro.news(src='sina', start_date='20180101', end_date='20181231')
 news.to_csv("financial_data\\news.csv",encoding='utf_8_sig')
 ```
 
-
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/news.png?raw=true)
 
 #### 3.2.6 概念信息   
 
@@ -208,7 +210,7 @@ concept = pro.concept()
 concept.to_csv('financial_data\\concept.csv', encoding='gbk')
 ```
 
-
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/concept_list.png?raw=true)
 
 #### 3.2.7 沪股通和深股通成分信息
 
@@ -221,7 +223,7 @@ sz = pro.hs_const(hs_type='SZ')
 sz.to_csv("financial_data\\sz.csv",index=False)
 ```
 
-
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/szsh.png?raw=true)
 
 #### 3.2.8 股票价格信息
 
@@ -232,7 +234,7 @@ for i in range(3610):
    price.to_csv("financial_data\\price\\"+str(code)+".csv",index=False)
 ```
 
-
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/price.png?raw=true)
 
 #### 3.2.9 tushare免费接口获取股票数据
 
@@ -279,7 +281,11 @@ np.argmax(counts)
 
 
 
-#### 3.3.2 计算股票对数收益   
+#### 3.3.2 计算股票对数收益 
+
+股票对数收益及皮尔逊相关系数的计算公式：
+
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/pcc.png?raw=true)
 
 ```python
 import pandas as pd
@@ -300,6 +306,8 @@ for l in listdir:
    stock['logreturn'] = logreturn
    stock.to_csv("financial_data\\price_logreturn\\"+l,index=False)
 ```
+
+
 
 #### 3.3.3 股票间对数收益率相关性
 
@@ -415,6 +423,10 @@ for i in holder.values:
    graph.create(a)
 ```
 
+
+
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/create_node.png?raw=true)
+
 ### 4.5 创建关系
 
 股票-股东、股票-概念、股票-公告、股票-股通
@@ -473,15 +485,27 @@ for i in corr.values:
    print(i)
 ```
 
+
+
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/create_releationship.png?raw=true)
+
+
+
 ## 5 数据可视化查询（以平安银行为例）
 
 基于Crypher语言
 
 ### 5.1 查看关联实体
 
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/corr_node.png?raw=true)
+
 ### 5.2 计算股票间对数收益率的相关系数后查看关联实体
 
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/corr_node_with_return.png?raw=true)
+
 ### 5.3 查看平安银行与万科A之间的对数收益率的相关系数
+
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/nodes_pcc.png?raw=true)
 
 ## 6 neo4j 图算法
 
@@ -565,7 +589,9 @@ Triangle Counting / Clustering Coefficient (三角计数/聚类系数)
 
 ### 6.3 链路预测算法
 
-实践neo4j的链路预测算法：主要基于判断相邻的两个节点之间的亲密程度作为评判标准
+实践neo4j的链路预测算法（Aaamic Adar algorithm, AAA）：主要基于判断相邻的两个节点之间的亲密程度作为评判标准
+
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/aaa.png?raw=true)
 
 算法实践：
 
@@ -594,57 +620,6 @@ RETURN algo.linkprediction.adamicAdar(p1, p2, {relationshipQuery: "FRIENDS"}) AS
 // score: 0.0                                                
 ```
 
----
+### 6.4 链路预测其它算法
 
-文本数据处理
-
-获取当前财经新闻，并使用中文格式保存和查看
-
-<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/textdata.png">
-
-使用wordcloud生成词云
-
-<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/wordcloud.jpg">
-
-数据清理：过滤无关词语
-
-<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/filter2.png">
-
-情感得分：
-
-<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/score.png">
-
-数据交互（Sample）
-
-<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/sample.png">
-
-数据存储（创建实体）
-
-<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/createEntity.png">
-
-数据存储（创建关系）
-
-<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/createRelation.png">
-
-数据可视化查询
-
-查询与“平安银行”相关信息（所属概念板块、发布公告、属于深股通/沪股通、股东信息）
-
-<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/match.png">
-
-插入股票间相关系数之后，显示与“平安银行”所有相关信息
-
-<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/match2.png">
-
-查询“平安银行”与“万科A”的对数收益的相关系数
-
-<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/match3.png">
-
-![rank](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/linkpredict.png)
-
-![rank](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/linkpredict2.png)
-
-链路预测算法
-
-![rank](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/linkpredict3.png)
-
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/others_alg.png?raw=true)
