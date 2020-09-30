@@ -1,7 +1,7 @@
 ## 小型金融知识图谱构流程示范
 ![](https://img.shields.io/static/v1?label=Author&message=jm199504&color=green)
 ![](https://img.shields.io/static/v1?label=Languages&message=python3.6+&color=orange)
-![](https://img.shields.io/static/v1?label=LastUpdateTime&message=2020.09.22+&color=lightgrey)
+![](https://img.shields.io/static/v1?label=LastUpdateTime&message=2020.09.30+&color=lightgrey)
 
 - [小型金融知识图谱构流程示范](#小型金融知识图谱构流程示范)
 - [1 知识图谱存储方式](#1-知识图谱存储方式)
@@ -23,35 +23,31 @@
     - [3.2.6 概念信息](#326-概念信息)
     - [3.2.7 沪股通和深股通成分信息](#327-沪股通和深股通成分信息)
     - [3.2.8 股票价格信息](#328-股票价格信息)
-    - [3.2.9 其它类型数据（以`tushare`免费接口为例）](#329-其它类型数据以tushare免费接口为例)
+    - [3.2.9 tushare免费接口获取股票数据](#329-tushare免费接口获取股票数据)
   - [3.3 数据预处理](#33-数据预处理)
     - [3.3.1 统计股票的交易日量众数](#331-统计股票的交易日量众数)
     - [3.3.2 计算股票对数收益](#332-计算股票对数收益)
     - [3.3.3 股票间对数收益率相关性](#333-股票间对数收益率相关性)
-  - [3 搭建金融知识图谱](#3-搭建金融知识图谱)
-  - [3.1 连接](#31-连接)
-  - [3.2 读取数据](#32-读取数据)
-  - [3.3 填充和去重](#33-填充和去重)
-  - [3.4 创建实体](#34-创建实体)
-  - [3.5 创建关系](#35-创建关系)
-- [4 数据可视化查询（以平安银行为例）](#4-数据可视化查询以平安银行为例)
-  - [4.1 查看关联实体](#41-查看关联实体)
-  - [4.2 计算股票间对数收益率的相关系数后查看关联实体](#42-计算股票间对数收益率的相关系数后查看关联实体)
-  - [4.3 查看平安银行与万科A之间的对数收益率的相关系数](#43-查看平安银行与万科a之间的对数收益率的相关系数)
-- [5 neo4j 图算法目录、使用方法](#5-neo4j-图算法目录使用方法)
-  - [5.1 目录](#51-目录)
-    - [5.1.1 中心度算法(Centralities)](#511-中心度算法centralities)
-    - [5.1.2 社区检测算法(Community detection)](#512-社区检测算法community-detection)
-    - [5.1.3 路径搜索算法(Path finding)](#513-路径搜索算法path-finding)
-    - [5.1.4 相似性算法(Similarity)](#514-相似性算法similarity)
-    - [5.1.5 链接预测(Link Prediction)](#515-链接预测link-prediction)
-    - [5.1.6 预处理算法(Preprocessing)：](#516-预处理算法preprocessing)
-  - [5.2 导入](#52-导入)
-  - [5.3 eg.链路预测算法](#53-eg链路预测算法)
-    - [数据交互（Sample）](#数据交互sample)
-    - [数据存储（创建实体）](#数据存储创建实体)
-    - [数据存储（创建关系）](#数据存储创建关系)
-    - [数据可视化查询](#数据可视化查询)
+- [4 搭建金融知识图谱](#4-搭建金融知识图谱)
+  - [4.1 连接](#41-连接)
+  - [4.2 读取数据](#42-读取数据)
+  - [4.3 填充和去重](#43-填充和去重)
+  - [4.4 创建实体](#44-创建实体)
+  - [4.5 创建关系](#45-创建关系)
+- [5 数据可视化查询（以平安银行为例）](#5-数据可视化查询以平安银行为例)
+  - [5.1 查看关联实体](#51-查看关联实体)
+  - [5.2 计算股票间对数收益率的相关系数后查看关联实体](#52-计算股票间对数收益率的相关系数后查看关联实体)
+  - [5.3 查看平安银行与万科A之间的对数收益率的相关系数](#53-查看平安银行与万科a之间的对数收益率的相关系数)
+- [6 neo4j 图算法](#6-neo4j-图算法)
+  - [6.1 目录](#61-目录)
+    - [6.1.1 中心度算法(Centralities)](#611-中心度算法centralities)
+    - [6.1.2 社区检测算法(Community detection)](#612-社区检测算法community-detection)
+    - [6.1.3 路径搜索算法(Path finding)](#613-路径搜索算法path-finding)
+    - [6.1.4 相似性算法(Similarity)](#614-相似性算法similarity)
+    - [6.1.5 链接预测(Link Prediction)](#615-链接预测link-prediction)
+    - [6.1.6 预处理算法(Preprocessing)](#616-预处理算法preprocessing)
+  - [6.2 导入方法](#62-导入方法)
+  - [6.3 链路预测算法](#63-链路预测算法)
     - [链路预测算法](#链路预测算法)
 
 ## 1 知识图谱存储方式
@@ -245,7 +241,7 @@ for i in range(3610):
 
 
 
-#### 3.2.9 其它类型数据（以`tushare`免费接口为例）
+#### 3.2.9 tushare免费接口获取股票数据
 
 ```python
 # 基本面信息
@@ -364,9 +360,9 @@ corrdf.to_csv("financial_data\\corr.csv")
 
 
 
-### 3 搭建金融知识图谱
+## 4 搭建金融知识图谱
 
-### 3.1 连接
+### 4.1 连接
 具体代码可参考3.1 python操作neo4j-连接
 
 ```python
@@ -379,7 +375,7 @@ import os
 graph = Graph('http://localhost:7474/db/data/',username='neo4j',password='neo4j')
 ```
 
-### 3.2 读取数据
+### 4.2 读取数据
 
 ```python
 stock = pd.read_csv('stock_basic.csv',encoding="gbk")
@@ -391,14 +387,14 @@ sz = pd.read_csv('sz.csv')
 corr = pd.read_csv('corr.csv')
 ```
 
-### 3.3 填充和去重
+### 4.3 填充和去重
 
 ```python
 stock['行业'] = stock['行业'].fillna('未知')
 holder = holder.drop_duplicates(subset=None, keep='first', inplace=False)
 ```
 
-### 3.4 创建实体
+### 4.4 创建实体
 
 概念、股票、股东、股通
 
@@ -425,7 +421,7 @@ for i in holder.values:
    graph.create(a)
 ```
 
-### 3.5 创建关系
+### 4.5 创建关系
 股票-股东、股票-概念、股票-公告、股票-股通
 
 ```python
@@ -482,21 +478,21 @@ for i in corr.values:
    print(i)
 ```
 
-## 4 数据可视化查询（以平安银行为例）
+## 5 数据可视化查询（以平安银行为例）
 
 基于Crypher语言
 
-### 4.1 查看关联实体
+### 5.1 查看关联实体
 
-### 4.2 计算股票间对数收益率的相关系数后查看关联实体
+### 5.2 计算股票间对数收益率的相关系数后查看关联实体
 
-### 4.3 查看平安银行与万科A之间的对数收益率的相关系数
+### 5.3 查看平安银行与万科A之间的对数收益率的相关系数
 
-## 5 neo4j 图算法目录、使用方法
+## 6 neo4j 图算法
 
-### 5.1 目录
+### 6.1 目录
 
-#### 5.1.1 中心度算法(Centralities) 
+#### 6.1.1 中心度算法(Centralities) 
 
 - PageRank (页面排名)
 
@@ -508,7 +504,7 @@ for i in corr.values:
 
 - Harmonic Centrality
 
-#### 5.1.2 社区检测算法(Community detection)   
+#### 6.1.2 社区检测算法(Community detection)   
 - Louvain (鲁汶算法)
 
 - Label Propagation (标签传播)
@@ -519,7 +515,7 @@ for i in corr.values:
 
 Triangle Counting / Clustering Coefficient (三角计数/聚类系数)
 
-#### 5.1.3 路径搜索算法(Path finding)  
+#### 6.1.3 路径搜索算法(Path finding)  
 
 - Minimum Weight Spanning Tree (最小权重生成树)
 
@@ -535,7 +531,7 @@ Triangle Counting / Clustering Coefficient (三角计数/聚类系数)
 
 - Random Walk (随机漫步)
 
-#### 5.1.4 相似性算法(Similarity)    
+#### 6.1.4 相似性算法(Similarity)    
 
 - Jaccard Similarity (Jaccard相似度)
 
@@ -547,7 +543,7 @@ Triangle Counting / Clustering Coefficient (三角计数/聚类系数)
 
 - Overlap Similarity (重叠相似度)
 
-#### 5.1.5 链接预测(Link Prediction)
+#### 6.1.5 链接预测(Link Prediction)
 
 - Adamic Adar
 
@@ -561,17 +557,17 @@ Triangle Counting / Clustering Coefficient (三角计数/聚类系数)
 
 - Total Neighbors
 
-#### 5.1.6 预处理算法(Preprocessing)：
+#### 6.1.6 预处理算法(Preprocessing)
 
 - One Hot Encoding
 
-### 5.2 导入
+### 6.2 导入方法
 
 （1）下载`graph-algorithms-algo-3.5.4.0.jar`复制到对应数据库的`plugin`文件夹下
 
 （2）修改数据库目录下的`conf`中`neo4j.conf`，添加`dbms.security.procedures.unrestricted=algo.*`
 
-### 5.3 eg.链路预测算法
+### 6.3 链路预测算法
 
 实践neo4j的链路预测算法：主要基于判断相邻的两个节点之间的亲密程度作为评判标准
 
@@ -622,19 +618,19 @@ RETURN algo.linkprediction.adamicAdar(p1, p2, {relationshipQuery: "FRIENDS"}) AS
 
 <img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/score.png">
 
-#### 数据交互（Sample）
+数据交互（Sample）
 
 <img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/sample.png">
 
-#### 数据存储（创建实体）
+数据存储（创建实体）
 
 <img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/createEntity.png">
 
-#### 数据存储（创建关系）
+数据存储（创建关系）
 
 <img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/createRelation.png">
 
-#### 数据可视化查询
+数据可视化查询
 
 查询与“平安银行”相关信息（所属概念板块、发布公告、属于深股通/沪股通、股东信息）
 
@@ -659,4 +655,5 @@ RETURN algo.linkprediction.adamicAdar(p1, p2, {relationshipQuery: "FRIENDS"}) AS
 #### 链路预测算法
 
 ![rank](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/linkpredict3.png)
+
 
