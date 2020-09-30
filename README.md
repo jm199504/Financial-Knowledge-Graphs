@@ -3,7 +3,6 @@
 ![](https://img.shields.io/static/v1?label=Languages&message=python3.6+&color=orange)
 ![](https://img.shields.io/static/v1?label=LastUpdateTime&message=2020.09.30+&color=lightgrey)
 
-- [小型金融知识图谱构流程示范](#小型金融知识图谱构流程示范)
 - [1 知识图谱存储方式](#1-知识图谱存储方式)
 - [2 关于neo4j安装、启动、登录](#2-关于neo4j安装启动登录)
   - [2.1 下载](#21-下载)
@@ -52,29 +51,24 @@
 
 ## 1 知识图谱存储方式
 
-主要包含资源描述框架(Resource Description Framework，RDF)和图数据库，其中RDF有以下特性：
+知识图谱存储方式主要包含资源描述框架(Resource Description Framework，RDF)和图数据库（Graph Database）。
 
-- 存储为三元组（Triple）
-
-- 标准的推理引擎
-
-- W3C标准
-
-- 易于发布数据
-
-- 多数为学术界场景
-
-图数据库有以下特性：
-
-- 节点和关系均可以包含属性
-
-- 没有标准的推理引擎
-
-- 图的遍历效率高
-
-- 事务管理
-
-- 多数为工业界场景
+> 资源描述框架有以下特性：
+>
+> - 存储为三元组（Triple）
+> - 标准的推理引擎
+> - W3C标准
+> - 易于发布数据
+> - 多数为学术界场景
+>
+> 图数据库有以下特性：
+>
+> - 节点和关系均可以包含属性
+>
+> - 没有标准的推理引擎
+> - 图的遍历效率高
+> - 事务管理
+> - 多数为工业界场景
 
 ---
 
