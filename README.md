@@ -71,7 +71,8 @@ Unable to find any JVMs matching version "11"
 
 ### 3.1 数据接口
 
-免费开源金融数据接口：（提示：Tushare免费账号可能无法拉取数据，可参考issue提供的股票数据获取方法）
+免费开源金融数据接口：
+Tip: Tushare免费账号可能无法拉取数据，可参考issues提供的股票数据获取方法: https://github.com/jm199504/Financial-Knowledge-Graphs/issues/2#issuecomment-801732782
 
 #### 3.1.1 Tushare
 
