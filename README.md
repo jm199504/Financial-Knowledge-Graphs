@@ -1,8 +1,6 @@
 ## 小型金融知识图谱构流程示范
 
 ![author](https://img.shields.io/static/v1?label=Author&message=jm199504&color=green)
-![language](https://img.shields.io/static/v1?label=Languages&message=python3.6+&color=orange)
-![lastupdatetime](https://img.shields.io/static/v1?label=LastUpdateTime&message=2021.03.14+&color=lightgrey)
 
 ## 1. 知识图谱存储方式
 
@@ -505,10 +503,10 @@ match p=(m)-[]->(n) where m.股票名称="平安银行" and n.股票名称="万�
 ### 6.2 社区检测算法(Community detection)   
 
 - [Louvain (鲁汶算法)](https://neo4j.com/docs/graph-data-science/current/algorithms/louvain/)
-- [Label Propagation (标签传播)]([Label Propagation](https://neo4j.com/docs/graph-algorithms/current/algorithms/label-propagation/))
-- [Connected Components (连通组件)]([Connected Components](https://neo4j.com/docs/graph-algorithms/current/algorithms/connected-components/))
-- [Strongly Connected Components (强连通组件)]([Strongly Connected Components ](https://neo4j.com/docs/graph-algorithms/current/algorithms/strongly-connected-components/))
-- [Triangle Counting / Clustering Coefficient (三角计数/聚类系数)]([Triangle Counting / Clustering Coefficient](https://neo4j.com/docs/graph-algorithms/current/algorithms/triangle-counting-clustering-coefficient/))
+- [Label Propagation (标签传播)](https://neo4j.com/docs/graph-algorithms/current/algorithms/label-propagation/)
+- [Connected Components (连通组件)](https://neo4j.com/docs/graph-algorithms/current/algorithms/connected-components/)
+- [Strongly Connected Components (强连通组件)]((https://neo4j.com/docs/graph-algorithms/current/algorithms/strongly-connected-components/)
+- [Triangle Counting / Clustering Coefficient (三角计数/聚类系数)](https://neo4j.com/docs/graph-algorithms/current/algorithms/triangle-counting-clustering-coefficient/)
 
 ### 6.3 路径搜索算法(Path finding)  
 
