@@ -1,16 +1,74 @@
-## 小型金融知识图谱构流程示范
+## 小型金融知识图谱构建示例
 
-![author](https://img.shields.io/static/v1?label=Author&message=jm199504&color=green)
+![author](https://img.shields.io/static/v1?label=Author&message=junmingguo&color=green)
+
+![language](https://img.shields.io/static/v1?label=Language&message=python3&color=orange)
+
+- [小型金融知识图谱构流程示范](#小型金融知识图谱构流程示范)
+- [1. 知识图谱存储方式](#1-知识图谱存储方式)
+  - [1.1 资源描述框架特性](#11-资源描述框架特性)
+  - [1.2 图数据库特性](#12-图数据库特性)
+- [2. 图数据库neo4j](#2-图数据库neo4j)
+  - [2.1 软件下载](#21-软件下载)
+  - [2.2 启动登录](#22-启动登录)
+    - [2.2.1 Windows](#221-windows)
+    - [2.2.2 MacOS](#222-macos)
+  - [2.3 储备知识](#23-储备知识)
+  - [2.4 Windows安装时可能遇到问题及解决方法](#24-windows安装时可能遇到问题及解决方法)
+- [3. 知识图谱数据准备](#3-知识图谱数据准备)
+  - [3.1 免费开源金融数据接口](#31-免费开源金融数据接口)
+    - [3.1.1 Tushare](#311-tushare)
+    - [3.1.2 JointQuant](#312-jointquant)
+    - [3.1.3 导入模块](#313-导入模块)
+  - [3.2 数据预处理](#32-数据预处理)
+    - [3.2.1 股票基本信息](#321-股票基本信息)
+    - [3.2.2 股票持有股东信息](#322-股票持有股东信息)
+    - [3.2.3 股票概念信息](#323-股票概念信息)
+    - [3.2.4 股票公告信息](#324-股票公告信息)
+    - [3.2.5 财经新闻信息](#325-财经新闻信息)
+    - [3.2.6 概念信息](#326-概念信息)
+    - [3.2.7 沪股通和深股通成分信息](#327-沪股通和深股通成分信息)
+    - [3.2.8 股票价格信息](#328-股票价格信息)
+    - [3.2.9 使用免费接口获取股票数据](#329-使用免费接口获取股票数据)
+  - [3.3 数据预处理](#33-数据预处理)
+    - [3.3.1 统计股票的交易日量众数](#331-统计股票的交易日量众数)
+    - [3.3.2 计算股票对数收益](#332-计算股票对数收益)
+    - [3.3.3 股票间对数收益率相关系数](#333-股票间对数收益率相关系数)
+- [4 搭建金融知识图谱](#4-搭建金融知识图谱)
+  - [4.1 基于python连接](#41-基于python连接)
+  - [4.2 读取数据](#42-读取数据)
+  - [4.3 填充和去重](#43-填充和去重)
+  - [4.4 创建实体](#44-创建实体)
+  - [4.5 创建关系](#45-创建关系)
+- [5 数据可视化查询](#5-数据可视化查询)
+  - [5.1 查看所有关联实体](#51-查看所有关联实体)
+  - [5.2 限制显示数量](#52-限制显示数量)
+  - [5.3 指定股票间对数收益率相关系数](#53-指定股票间对数收益率相关系数)
+- [6 neo4j 图算法](#6-neo4j-图算法)
+  - [6.1.中心度算法(Centralities)](#61中心度算法centralities)
+  - [6.2 社区检测算法(Community detection)](#62-社区检测算法community-detection)
+  - [6.3 路径搜索算法(Path finding)](#63-路径搜索算法path-finding)
+  - [6.4 相似性算法(Similarity)](#64-相似性算法similarity)
+  - [6.5 链接预测(Link Prediction)](#65-链接预测link-prediction)
+  - [6.6 预处理算法(Preprocessing)](#66-预处理算法preprocessing)
+  - [6.7 算法库安装及导入方法](#67-算法库安装及导入方法)
+  - [6.8 算法实践——链路预测](#68-算法实践链路预测)
+    - [6.8.1 Aaamic Adar algorithm](#681-aaamic-adar-algorithm)
+    - [6.8.2 Common Neighbors](#682-common-neighbors)
+    - [6.8.3 Resource Allocation](#683-resource-allocation)
+    - [6.8.4 Total Neighbors](#684-total-neighbors)
+
+
 
 ## 1. 知识图谱存储方式
 
-知识图谱存储方式主要包含资源描述框架(Resource Description Framework，RDF)和图数据库（Graph Database）。
+知识图谱存储方式主要包含资源描述框架([Resource Description Framework，RDF](https://en.wikipedia.org/wiki/Resource_Description_Framework))和图数据库（[Graph Database](https://en.wikipedia.org/wiki/Graph_database)）。
 
 ### 1.1 资源描述框架特性
 
 - 存储为三元组（Triple）
 - 标准的推理引擎
-- W3C标准
+- [W3C标准](https://en.wikipedia.org/wiki/World_Wide_Web_Consortium)
 - 易于发布数据
 - 多数为学术界场景
 
@@ -26,7 +84,9 @@
 
 ## 2. 图数据库neo4j
 
-neo4j是一款NoSQL图数据库，具备高性能的读写可扩展性，基于高效的图形查询语言`Cypher`，更多介绍可访问[neo4j官网](https://neo4j.com/)，官网还提供了[Online Sandbox](https://neo4j.com/sandbox/)实现快速上手体验。
+neo4j是一款[NoSQL](https://en.wikipedia.org/wiki/NoSQL)图数据库，具备高性能的读写可扩展性，基于高效的图形查询语言`Cypher`，更多介绍可访问[neo4j官网](https://neo4j.com/)，官网还提供了[Online Sandbox](https://neo4j.com/sandbox/)实现快速上手体验。
+
+
 
 ### 2.1 软件下载
 
@@ -34,14 +94,16 @@ neo4j是一款NoSQL图数据库，具备高性能的读写可扩展性，基于�
 
 ### 2.2 启动登录
 
-- 进入neo4j目录
+#### 2.2.1 Windows
+
+- 进入`neo4j`目录
 
 ```
 cd neo4j/bin
 ./neo4j start
 ```
 
-- 启动成功，终端会提示：
+- 启动成功，终端出现如下提示即为启动成功
 
 ```
 Starting Neo4j.Started neo4j (pid 30914). It is available at http://localhost:7474/ There may be a short delay until the server is ready.
@@ -51,11 +113,25 @@ Starting Neo4j.Started neo4j (pid 30914). It is available at http://localhost:74
 
 （2）初始账户和密码均为`neo4j`（`host`类型选择`bolt`）
 
-（3）输入旧密码并输入新密码：启动前注意本地已安装`jdk`（建议安装`jdk`版本11）：https://www.oracle.com/java/technologies/javase-downloads.html
+（3）输入旧密码并输入新密码：启动前注意本地已安装`jdk`（建议安装`jdk version 11`）：https://www.oracle.com/java/technologies/javase-downloads.html
 
-### 2.3 可能遇到问题及解决方法
+#### 2.2.2 MacOS
 
-- 问题：完成安装JDK1.8.0_261后，在启动neo4j过程中出现了以下问题：
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/neo4j.png?raw=true)
+
+执行 Add Local DBMS 后，再打开 Neo4j Browser即可
+
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/neo4j_br.png?raw=true)
+
+### 2.3 储备知识
+
+在 neo4j 上执行 CRUD 时需要使用 Cypher 查询语言。
+- [官网文档](https://neo4j.com/developer/cypher/)
+- [个人整理的常见Cypher指令](https://github.com/jm199504/Financial-Knowledge-Graphs/tree/master/cypher%20cheetsheet) 
+
+### 2.4 Windows安装时可能遇到问题及解决方法
+
+- 问题：完成安装JDK1.8.0_261后，在启动`neo4j`过程中出现了以下问题：
 
 ```
 Unable to find any JVMs matching version "11"
@@ -67,10 +143,9 @@ Unable to find any JVMs matching version "11"
 
 ## 3. 知识图谱数据准备
 
-### 3.1 数据接口
+### 3.1 免费开源金融数据接口
 
-免费开源金融数据接口：
-Tip: Tushare免费账号可能无法拉取数据，可参考issues提供的股票数据获取方法: https://github.com/jm199504/Financial-Knowledge-Graphs/issues/2#issuecomment-801732782
+Tushare免费账号可能无法拉取数据，可参考issues提供的股票数据获取方法: https://github.com/jm199504/Financial-Knowledge-Graphs/issues/2#issuecomment-801732782
 
 #### 3.1.1 Tushare
 
@@ -106,7 +181,7 @@ stock_basic.rename(columns=basic_rename, inplace=True)
 stock_basic.to_csv('financial_data\\stock_basic.csv', encoding='gbk')
 ```
 
-![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/basic_info.png?raw=true)
+<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/basic_info.png?raw=true" style="zoom:67%;" />
 
 #### 3.2.2 股票持有股东信息    
 
@@ -140,7 +215,7 @@ for i in range(358):
 concept_details.to_csv('financial_data\\stock_concept.csv', encoding='gbk')
 ```
 
-<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/concept.png?raw=true" style="zoom:67%;"/>
+<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/concept.png?raw=true" style="zoom: 50%;"/>
 
 #### 3.2.4 股票公告信息   
 
@@ -170,7 +245,7 @@ concept = pro.concept()
 concept.to_csv('financial_data\\concept.csv', encoding='gbk')
 ```
 
-![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/concept_list.png?raw=true)
+<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/concept_list.png?raw=true" style="zoom:67%;" />
 
 #### 3.2.7 沪股通和深股通成分信息
 
@@ -183,7 +258,7 @@ sz = pro.hs_const(hs_type='SZ')
 sz.to_csv("financial_data\\sz.csv",index=False)
 ```
 
-![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/szsh.png?raw=true)
+<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/szsh.png?raw=true" style="zoom:67%;" />
 
 #### 3.2.8 股票价格信息
 
@@ -580,7 +655,7 @@ CALL algo.list()
 
 主要基于判断相邻的两个节点之间的亲密程度作为评判标准，2003年由Lada Adamic 和 Eytan Adar在 [Friends and neighbors on the Web](https://www.sciencedirect.com/science/article/abs/pii/S0378873303000091?via%3Dihub) 提出，其中节点亲密度的计算公式如下：
 
-![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/aaa.png?raw=true)
+<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/aaa.png?raw=true" style="zoom: 33%;" />
 
 其中`N(u)`表示与节点u相邻的节点集合，若`A(x,y)`表示节点x和节点y不相邻，而该值若越大则紧密度为高。
 
@@ -617,7 +692,7 @@ RETURN algo.linkprediction.adamicAdar(p1, p2, {relationshipQuery: "FRIENDS"}) AS
 
 基于节点之间共同近邻数量计算，计算公式如下：
 
-![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/cn.png?raw=true)
+<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/cn.png?raw=true" style="zoom:33%;" />
 
 其中N(x)表示与节点x相邻的节点集合，共同近邻表示两个集合的交集，若CN(x,y)值越高，表示节点x和节点y的亲密度越高。
 
@@ -635,7 +710,7 @@ RETURN algo.linkprediction.commonNeighbors(p1, p2) AS score
 
 资源分配算法，计算公式如下：
 
-![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/ra.png?raw=true)
+<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/ra.png?raw=true" style="zoom:33%;" />
 
 其中`N(u)`是与节点`u`相邻的节点集合，RA(x,y)越高表明节点x和节点y的亲密度越大。
 
@@ -651,7 +726,7 @@ RETURN algo.linkprediction.resourceAllocation(p1, p2) AS score
 
 指的是相邻节点之间的邻居总数，计算公式如下：
 
-![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/tn.png?raw=true)
+<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/tn.png?raw=true" style="zoom:33%;" />
 
 其中`N(u)`是与节点`u`相邻的节点集合。
 
@@ -667,7 +742,4 @@ RETURN algo.linkprediction.totalNeighbors(p1, p2) AS score
 
 ---
 
-### 备注
-
-- 部分中文翻译待勘正，请以官网介绍及英文名为准
-
+⚠️ 备注：部分中文翻译待勘正，请以官网介绍及英文名为准
