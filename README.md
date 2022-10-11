@@ -1,10 +1,7 @@
 ## 小型金融知识图谱构建示例
 
-![author](https://img.shields.io/static/v1?label=Author&message=junmingguo&color=green)
+![author](https://img.shields.io/static/v1?label=Author&message=junmingguo&color=green)![language](https://img.shields.io/static/v1?label=Language&message=python3&color=orange)
 
-![language](https://img.shields.io/static/v1?label=Language&message=python3&color=orange)
-
-- [小型金融知识图谱构流程示范](#小型金融知识图谱构流程示范)
 - [1. 知识图谱存储方式](#1-知识图谱存储方式)
   - [1.1 资源描述框架特性](#11-资源描述框架特性)
   - [1.2 图数据库特性](#12-图数据库特性)
@@ -117,11 +114,7 @@ Starting Neo4j.Started neo4j (pid 30914). It is available at http://localhost:74
 
 #### 2.2.2 MacOS
 
-![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/neo4j.png?raw=true)
-
 执行 Add Local DBMS 后，再打开 Neo4j Browser即可
-
-![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/neo4j_br.png?raw=true)
 
 ### 2.3 储备知识
 
