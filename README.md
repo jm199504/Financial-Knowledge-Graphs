@@ -2,7 +2,7 @@
 
 ![author](https://img.shields.io/static/v1?label=Author&message=junmingguo&color=green) 
 ![language](https://img.shields.io/static/v1?label=Language&message=python3&color=orange)
-![topics](https://img.shields.io/static/v1?label=Topics&message=neo4j / knowledge-graph / cypher / financial-time-series&color=blue)
+![topics](https://img.shields.io/static/v1?label=Topics&message=neo4j / knowledge-graph&color=blue)
 
 - [1. 知识图谱存储方式](#1-知识图谱存储方式)
   - [1.1 资源描述框架特性](#11-资源描述框架特性)
