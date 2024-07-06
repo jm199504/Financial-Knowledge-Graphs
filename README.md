@@ -2,7 +2,7 @@
 
 ![author](https://img.shields.io/static/v1?label=Author&message=junmingguo&color=green) 
 ![language](https://img.shields.io/static/v1?label=Language&message=python3&color=orange)
-![topics](https://img.shields.io/static/v1?label=Topics&message=neo4j&color=blue)
+![topics](https://img.shields.io/static/v1?label=Topics&message=neo4j / knowledge-graph / cypher / financial-time-series&color=blue)
 
 - [1. 知识图谱存储方式](#1-知识图谱存储方式)
   - [1.1 资源描述框架特性](#11-资源描述框架特性)
@@ -176,7 +176,14 @@ stock_basic.rename(columns=basic_rename, inplace=True)
 stock_basic.to_csv('financial_data\\stock_basic.csv', encoding='gbk')
 ```
 
-<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/basic_info.png?raw=true" style="zoom:67%;" />
+| TS代码    | 股票代码 | 股票名称   | 行业     |
+|-----------|----------|------------|----------|
+| 000001.SZ | 000001   | 平安银行   | 银行     |
+| 000002.SZ | 000002   | 万科A      | 全国地产 |
+| 000004.SZ | 000004   | 国华网安   | 软件服务 |
+| 000005.SZ | 000005   | ST星源     | 环境保护 |
+| 000006.SZ | 000006   | 深振业A    | 区域地产 |
+
 
 #### 3.2.2 股票持有股东信息    
 
@@ -195,7 +202,13 @@ holders.to_csv('financial_data\\stock_holders.csv', encoding='gbk')
 holders = pro.holders(ts_code='000001.SZ', start_date='20180101', end_date='20181231')
 ```
 
-![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/holders.png?raw=true)
+| ts_code   | ann_date | end_date | holder_name                                            | hold_amount   | hold_ratio |
+|-----------|----------|----------|---------------------------------------------------------|---------------|------------|
+| 000001.SZ | 20200421 | 20200331 | 中国平安保险(集团)股份有限公司-集团本级-自有资金          | 9.618540e+09  | 49.56      |
+| 000001.SZ | 20200421 | 20200331 | 香港中央结算有限公司(陆股通)                             | 1.669875e+09  | 8.60       |
+| 000001.SZ | 20200421 | 20200331 | 中国平安人寿保险股份有限公司-自有资金                    | 1.186100e+09  | 6.11       |
+| 000001.SZ | 20200421 | 20200331 | 中国平安人寿保险股份有限公司-传统-普通保险产品           | 4.404787e+08  | 2.27       |
+| 000001.SZ | 20200421 | 20200331 | 中国证券金融股份有限公司                                 | 4.292327e+08  | 2.21       |
 
 #### 3.2.3 股票概念信息   
 
@@ -210,7 +223,13 @@ for i in range(358):
 concept_details.to_csv('financial_data\\stock_concept.csv', encoding='gbk')
 ```
 
-<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/concept.png?raw=true" style="zoom: 50%;"/>
+| id | concept_name | ts_code  | name         |
+|----|---------|----------|--------------|
+| TS0 | 密集调研 | 000917.SZ | 电广传媒       |
+| TS0 | 密集调研 | 002123.SZ | 梦网集团       |
+| TS0 | 密集调研 | 002127.SZ | 南极电商       |
+| TS0 | 密集调研 | 002371.SZ | 北方华创       |
+| TS0 | 密集调研 | 002460.SZ | 赣锋锂业       |
 
 #### 3.2.4 股票公告信息   
 
@@ -222,7 +241,15 @@ for i in range(3610):
 notices = pro.anns(ts_code='000001.SZ', start_date='20180101', end_date='20181231', year='2018')
 ```
 
-![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/notices.png?raw=true)
+| ts_code   | ann_date  | title                                                                                       | content                                     |
+|-----------|-----------|---------------------------------------------------------------------------------------------|---------------------------------------------|
+| 000001.SZ | 20181227  | 关于公开发行A股可转换公司债券申请获得中国证监会核准批复的公告                                          | 证券代码：000001 证券简称：平安银行            |
+| 000001.SZ | 20181226  | 董事会决议公告                                                                               | 证券代码：000001 证券简称：平安银行 ...      |
+| 000001.SZ | 20181219  | 关于成功发行350亿元金融债券的公告                                                              | 证券代码：000001 证券简称：平安银行.          |
+| 000001.SZ | 20181218  | 关于公开发行A股可转换公司债券申请获中国证监会发行审核委员会南核通过的公告                       | 证券代码：000001 证券简称：平安银行 ...      |
+| 000001.SZ | 20181208  | 关于发行金融债券获准的公告                                                                     | 证券代码：000001 证券简称：平安银行⋯         |
+
+
 
 #### 3.2.5 财经新闻信息
 
@@ -231,7 +258,13 @@ news = pro.news(src='sina', start_date='20180101', end_date='20181231')
 news.to_csv("financial_data\\news.csv",encoding='utf_8_sig')
 ```
 
-![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/news.png?raw=true)
+| datetime            | content                                                                                      | title                                                                                       |
+|---------------------|----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
+| 2018-11-22 10:09:00 | 【北京：10月末非金融企业贷款增速创历史同期新高 】据中国人民银行营业管理部11月22日披露...             |                                                                                             |
+| 2018-11-22 10:08:29 | 【湖北省积极推动企业向科创板靠拢，年底将向上交所推荐一批优质企业】湖北省上市指导中心相关人士...  |                                                                                             |
+| 2018-11-22 10:08:04 | 【上海：加快专利审查速度 进一步缩短专利授权周期】上海市人民政府发布关于加快本市高新技术企业...    |                                                                                             |
+| 2018-11-22 10:04:35 | 【生意社：稀土价格走势或将上涨】11月20日稀土指数为344点，与上一日持平，较2011年1...               |                                                                                             |
+| 2018-11-22 10:03:40 | 【上海：加快建设具有全球影响力的科技创新中心 做大做强高新技术产业】上海市人民政府发布关于加...    |                                                                                             |
 
 #### 3.2.6 概念信息   
 
@@ -240,7 +273,13 @@ concept = pro.concept()
 concept.to_csv('financial_data\\concept.csv', encoding='gbk')
 ```
 
-<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/concept_list.png?raw=true" style="zoom:67%;" />
+| code   | name         | src      |
+|--------|--------------|--------------|
+| TS0 | TSO 密集调研 | ts |
+| TS1   | TS1 南北船合并 ts | ts |
+| TS2  | TS25G        | ts      |
+| TS3  | TS3 机场      | ts    |
+| TS4  | TS4 高价股    | ts  |
 
 #### 3.2.7 沪股通和深股通成分信息
 
@@ -253,7 +292,13 @@ sz = pro.hs_const(hs_type='SZ')
 sz.to_csv("financial_data\\sz.csv",index=False)
 ```
 
-<img src="https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/szsh.png?raw=true" style="zoom:67%;" />
+| ts_code   | hs_type | in_date   | out_date | is_new |
+|-----------|---------|-----------|----------|--------|
+| 601628.SH | SH      | 20141117  | None     | 1      |
+| 601099.SH | SH      | 20141117  | None     | 1      |
+| 601808.SH | SH      | 20141117  | None     | 1      |
+| 601107.SH | SH      | 20141117  | None     | 1      |
+| 601880.SH | SH      | 20141117  | None     | 1      |
 
 #### 3.2.8 股票价格信息
 
@@ -264,7 +309,13 @@ for i in range(3610):
    price.to_csv("financial_data\\price\\"+str(code)+".csv",index=False)
 ```
 
-![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/price.png?raw=true)
+| ts_code   | trade_date | open  | high  | low   | close | pre_close | change | pct_chg | vol        | amount       |
+|-----------|------------|-------|-------|-------|-------|-----------|--------|---------|------------|--------------|
+| 000001.SZ | 20200123   | 15.92 | 15.92 | 15.39 | 15.54 | 16.09     | -0.55  | -3.4183 | 1100592.07 | 1723394.336  |
+| 000001.SZ | 20200122   | 15.92 | 16.16 | 15.71 | 16.09 | 16.00     | 0.09   | 0.5625  | 719464.91  | 1150933.398  |
+| 000001.SZ | 20200121   | 16.34 | 16.34 | 15.93 | 16.00 | 16.45     | -0.45  | -2.7356 | 896603.10  | 1442171.431  |
+| 000001.SZ | 20200120   | 16.43 | 16.61 | 16.35 | 16.45 | 16.39     | 0.06   | 0.3661  | 746074.75  | 1226464.649  |
+| 000001.SZ | 20200117   | 16.38 | 16.55 | 16.35 | 16.39 | 16.33     | 0.06   | 0.3674  | 605436.69  | 995909.007   |
 
 #### 3.2.9 使用免费接口获取股票数据
 
@@ -734,7 +785,3 @@ RETURN algo.linkprediction.totalNeighbors(p1, p2) AS score
 ```
 
 官网文档>链路算法>介绍：https://neo4j.com/docs/graph-algorithms/3.5/labs-algorithms/linkprediction/
-
----
-
-⚠️ 备注：部分中文翻译待勘正，请以官网介绍及英文名为准
