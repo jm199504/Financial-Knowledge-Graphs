@@ -784,4 +784,9 @@ MATCH (p2:Person {name: 'Karin'})
 RETURN algo.linkprediction.totalNeighbors(p1, p2) AS score
 ```
 
-官网文档>链路算法>介绍：https://neo4j.com/docs/graph-algorithms/3.5/labs-algorithms/linkprediction/
+官网文档=>链路算法=>介绍：https://neo4j.com/docs/graph-algorithms/3.5/labs-algorithms/linkprediction/
+
+
+
+
+
