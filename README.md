@@ -335,12 +335,74 @@ ts.get_hist_data("000001",ktype="w")
 ts.get_hist_data("000001",ktype="m")
 # 历史价格数据（5分钟粒度）
 ts.get_hist_data("000001",ktype="5")
-# 指数数据（sh上证指数;sz深圳成指;hs300沪深300;sz50上证50;zxb中小板指数;cyb创业板指数）
-ts.get_hist_data("cyb")
-# 宏观数据(居民消费指数)
+```
+#### 3.2.10 指数数据
+
+- sh上证指数
+
+- sz深圳成指
+- hs300沪深300
+- sz50上证50
+- zxb中小板指数
+- cyb创业板指数
+
+```
+ts.get_hist_data("cyb").head()
+```
+| date       | open   | high   | close  | low    | volume      | price_change | p_change | ma5      | ma10     | ma20     | v_ma5       | v_ma10      | v_ma20       |
+|------------|--------|--------|--------|--------|-------------|--------------|----------|----------|----------|----------|-------------|-------------|--------------|
+| 2019-06-19 | 1501.25| 1504.41| 1469.99| 1469.59| 16878786.0  | 14.24        | 0.98     | 1460.376 | 1456.171 | 1466.724 | 13305159.8  | 13847384.5  | 14209395.85  |
+| 2019-06-18 | 1443.65| 1460.19| 1455.75| 1437.04| 9075484.0   | 13.40        | 0.93     | 1461.158 | 1454.799 | 1467.911 | 12853513.4  | 13402555.2  | 14119367.10  |
+| 2019-06-17 | 1450.56| 1459.21| 1442.35| 1437.14| 9968822.0   | -11.61       | -0.80    | 1467.478 | 1456.122 | 1468.589 | 14905515.8  | 13928269.9  | 14493830.70  |
+| 2019-06-14 | 1478.53| 1489.47| 1453.96| 1451.66| 16016380.0  | -25.87       | -1.75    | 1465.276 | 1460.253 | 1470.409 | 15363326.0  | 14201386.5  | 14961172.10  |
+| 2019-06-13 | 1474.55| 1485.72| 1479.83| 1464.84| 14586327.0  | 5.93         | 0.40     | 1457.696 | 1463.381 | 1474.394 | 14821981.6  | 13946315.2  | 14942959.45  |
+
+#### 3.2.11 宏观数据(居民消费指数)
+
+```
 ts.get_cpi()
-# 获取分笔数据
+```
+| month  | cpi    |
+|--------|--------|
+| 2019.5 | 102.74 |
+| 2019.4 | 102.54 |
+| 2019.3 | 102.28 |
+| 2019.2 | 101.49 |
+| 2019.1 | 101.74 |
+
+#### 3.2.12 获取分笔数据
+
+```python
 ts.get_tick_data('000001', date='2018-10-08', src='tt')
+```
+
+
+| time    | price | change | volume | amount   | type  |
+|---------|-------|--------|--------|----------|-------|
+| 09:25:04| 10.70 | -0.35  | 36779  | 39353530 | 卖盘  |
+| 09:30:04| 10.69 | -0.01  | 25165  | 26872673 | 卖盘  |
+| 09:30:06| 10.69 |  0.00  | 11092  | 11853208 | 买盘  |
+| 09:30:09| 10.68 | -0.01  |  2005  |  2142749 | 卖盘  |
+| 09:30:13| 10.68 |  0.00  |  5973  |  6363516 | 买盘  |
+
+#### 3.2.13 价格走势图
+
+```python
+from pyecharts.charts import Line
+from pyecharts import options as opts
+import numpy as np
+price = pro.query('daily', ts_code='000001.SZ', start_date='20180101', end_date='20181231')
+(
+    Line()
+    .add_xaxis(xaxis_data=list(price['trade_date'])[::-1])
+    
+    .add_yaxis(series_name="close price",y_axis=list(price['close'])[::-1],symbol="circle")
+    .add_yaxis(series_name="open price",y_axis=list(price['open'])[::-1],symbol="circle")
+    .add_yaxis(series_name="high price",y_axis=list(price['high'])[::-1],symbol="circle")
+    .add_yaxis(series_name="low price",y_axis=list(price['low'])[::-1],symbol="circle")
+    .set_global_opts(title_opts=opts.TitleOpts(title="价格走势图"))
+    .render_notebook()
+)
 ```
 
 
@@ -388,8 +450,6 @@ for l in listdir:
    stock['logreturn'] = logreturn
    stock.to_csv("financial_data\\price_logreturn\\"+l,index=False)
 ```
-
-
 
 #### 3.3.3 股票间对数收益率相关系数
 
@@ -441,7 +501,512 @@ corrdf['corr'] = corr
 corrdf.to_csv("financial_data\\corr.csv")
 ```
 
+### 3.4 文本数据词云及情绪分析
 
+#### 3.4.1 获取数据
+
+```python
+#金融量化分析常用到的有：pandas（数据结构）、
+#numpy（数组）、matplotlib（可视化）、scipy（统计）
+import tushare as ts
+import pandas as pd
+import matplotlib.pyplot as plt
+%matplotlib inline
+import jieba
+import jieba.analyse
+from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
+
+# 正常显示画图时出现的中文和负号
+from pylab import mpl
+mpl.rcParams['font.sans-serif']=['SimHei']
+mpl.rcParams['axes.unicode_minus']=False
+
+ts.set_token('4340a981b3102106757287c11833fc14e310c4bacf8275f067c9b82d')
+pro = ts.pro_api()
+df = pro.news(src='sina', start_date='20190601', end_date='20190624')
+#获取当前即时财经新闻（如本文是2018年11月17日）
+
+# 数据清洗，保留需要的字段
+df=df[['datetime','title','content']]
+# 保存数据
+df.to_csv("latest_news.csv",encoding="utf_8_sig")
+# 查看前5条数据
+df.head()
+```
+
+#### 3.4.2 财经新闻标题词云
+
+```python
+#提取新闻标题内容并转化为列表（list）
+#注意原来是pandas的数据格式
+mylist = list(df.content.values)
+
+#对内容进行分词（即切割为一个个关键词）
+word_list = [" ".join(jieba.cut(sentence)) for sentence in mylist]
+new_text = ' '.join(word_list)
+
+#读取图
+img = plt.imread("black.jpg")
+
+#设置词云格式
+wc = WordCloud(background_color="white", 
+     mask=img,#设置背景图片
+     max_font_size=120, #字体最大值
+     random_state=42,  #颜色随机性
+     font_path="c:\windows\fonts\simsun.ttc")
+#font_path显示中文字体，使用黑体
+
+#生成词云
+wc.generate(new_text)
+image_colors = ImageColorGenerator(img)
+
+#设置图片大小
+plt.figure(figsize=(14,12))
+plt.imshow(wc)
+plt.title('财经新闻标题词云\n',fontsize=18)
+plt.axis("off")
+plt.show()
+
+#将图片保存到本地
+# wc.to_file("财经新闻标题词云.jpg")
+```
+
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/word_cloud.png?raw=true)
+
+#### 3.4.3 数据清洗（黑名单/固定词）
+
+```python
+#数据清洗
+#将titles列专门提取出来，并转化为列表形式
+d=list(df.content[0])
+content=''.join(d) 
+print(content)
+#设置分词黑名单
+blacklist = ['个','文本','界面','21','23']
+
+#将某些固定词汇加入分词
+stopwords=['产融对接项目','国际金融交易·博览会']
+for word in stopwords:
+    jieba.add_word(word)
+
+#设置blacklist黑名单过滤无关词语
+d = {} #将词语转入字典
+for word in jieba.cut(content): 
+    if word in blacklist: 
+        continue
+    if len(word)<2: #去除单个字的词语
+        continue
+    d[word] = d.get(word, 0) + 1 
+
+#使用jieba.analyse
+d=''.join(d)
+tags=jieba.analyse.extract_tags(d,topK=100,withWeight=True)
+tf=dict((a[0],a[1]) for a in tags)
+backgroud_Image = plt.imread('black.jpg')
+
+wc = WordCloud(
+    background_color='white',
+    # 设置背景颜色
+    mask=backgroud_Image,
+    # 设置背景图片
+    font_path="c:\windows\fonts\simsun.ttc",  
+    # 若是有中文的话，这句代码必须添加
+    max_words=10, # 设置最大现实的字数
+    stopwords=STOPWORDS,# 设置停用词
+    max_font_size=150,# 设置字体最大值
+    random_state=30)
+wc.generate_from_frequencies(tf)
+plt.figure(figsize=(6,6),facecolor='w',edgecolor='k')
+plt.imshow(wc)
+# 是否显示x轴、y轴下标
+plt.title(df.title[0],fontsize=15)
+plt.axis('off')
+plt.show()
+```
+
+#### 3.4.4 情绪分析
+
+```python
+from snownlp import SnowNLP
+
+def word_processing(text):
+    pass
+#数据清洗，限于篇幅，代码省略
+
+def sentiment_score_list(dataset):
+    pass
+#数据处理和情绪判断主函数，
+#限于篇幅，代码省略
+
+def sentiment_score(senti_text):
+    s1 = SnowNLP(senti_text)
+    print(senti_text)
+    return s1.sentiments
+#情绪得分汇总
+
+#将上述新闻标题去掉空格，写入列表里（list）
+y=[]
+t1=list(df.content)
+for i in range(len(t1)):
+    x=t1[i].split()
+    x=','.join(x)
+    if i<len(t1)-1:
+        x=x+'。'
+    y.append(x)
+
+# senti_score_list=sentiment_score_list(wlist)
+for i in range(0,3):
+    textscore =sentiment_score(df.content[i])
+    print(f"情绪得分: {textscore}")
+
+# p=0
+# n=0
+# for i in range(len(text)):
+#     if text[i]>0:
+#         p+=1
+#     else:
+#         n+=1
+# print("正面新闻数目：{0},负面新闻数目：{1}".format(p,n))    
+```
+
+输出结果：
+
+```
+【第八届金交会闭幕，意向签约总额近3500亿元】6月21日至23日，为期三天的第八届中国（广州）国际金融交易·博览会在广州举办。本届金交会上，广东新设机构平台9家，收集48个产融对接项目，意向签约总额近3500亿元，有7个粤港澳大湾区项目是首次集中交换签约文本。深圳证券交易所广州服务基地在本届金交会正式授牌成立，将更好地推动广东省企业上市、发行固定收益产品，支持区域内上市公司做优做强。（界面）
+情绪得分: 0.921750008323056
+
+【科创板发行接二连三！睿创微纳、天准科技将于7月2日网上申购】6月23日晚间，记者获悉，睿创微纳和天准科技即将在上交所披露招股意向书、上市发行安排及初步询价公告等多个文件。公告显示，睿创微纳股票代码为688002，网上申购代码为787002。天准科技股票代码为688003，网上申购代码为787003。睿创微纳、天准科技网上、网下申购时间均为7月2日，将于7月4日公布中签结果。（证券时报）
+情绪得分: 0.33760371797103894
+
+【东盟峰会主席声明反对贸易保护主义】第34届东盟峰会23日在泰国首都曼谷闭幕。当天公布的本届东盟峰会主席声明说，东盟反对贸易保护主义，支持维护多边贸易体制。（新华社）
+情绪得分: 0.05343571003642067
+```
+
+### 3.5 数据可视化
+
+#### 3.5.1 获取数据
+
+```python
+#先引入后面可能用到的包（package）
+import pandas as pd  
+import numpy as np
+import matplotlib.pyplot as plt
+#正常显示画图时出现的中文
+from pylab import mpl
+#这里使用微软雅黑字体
+mpl.rcParams['font.sans-serif']=['SimHei']
+#画图时显示负号
+mpl.rcParams['axes.unicode_minus']=False
+import seaborn as sns  #画图用的
+import tushare as ts
+#Jupyter Notebook特有的magic命令
+#直接在行内显示图形
+%matplotlib inline 
+
+sh=ts.get_k_data(code='sh',ktype='D',
+  autype='qfq', start='1990-12-20')
+#code:股票代码，个股主要使用代码，如‘600000’
+#ktype:'D':日数据；‘m’：月数据，‘Y’:年数据
+#autype:复权选择，默认‘qfq’前复权
+#start：起始时间
+#end：默认当前时间
+#查看下数据前5行
+sh.head(5)
+```
+| date       | open  | close | high  | low   | volume | code |
+|------------|-------|-------|-------|-------|--------|------|
+| 1990-12-20 | 113.1 | 113.5 | 113.5 | 112.85| 1990.0 | sh   |
+| 1990-12-21 | 113.5 | 113.5 | 113.5 | 113.4 | 1190.0 | sh   |
+| 1990-12-24 | 113.5 | 114.0 | 114.0 | 113.3 | 8070.0 | sh   |
+| 1990-12-25 | 114.0 | 114.1 | 114.2 | 114.0 | 2780.0 | sh   |
+| 1990-12-26 | 114.4 | 114.3 | 114.4 | 114.2 |  310.0 | sh   |
+
+#### 3.5.2 绘制收盘价趋势图
+
+```python
+#将数据列表中的第0列'date'设置为索引
+sh.index=pd.to_datetime(sh.date) 
+#画出上证指数收盘价的走势
+sh['close'].plot(figsize=(12,6))
+plt.title('上证指数1990-2018年走势图')
+plt.xlabel('日期')
+plt.show()
+```
+
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/close_price_plot.png?raw=true)
+
+#### 3.5.3 描述性统计
+
+```python
+#pandas的describe()函数提供了数据的描述性统计
+#count:数据样本，mean:均值，std:标准差
+sh.describe().round(2)
+```
+|         | open    | close   | high    | low     | volume       |
+|---------|---------|---------|---------|---------|--------------|
+| count   | 6808.00 | 6808.00 | 6808.00 | 6808.00 | 6.808000e+03 |
+| mean    | 1957.80 | 1959.08 | 1976.41 | 1937.84 | 7.431684e+07 |
+| std     | 1074.56 | 1075.94 | 1085.71 | 1062.06 | 1.055240e+08 |
+| min     | 105.50  | 105.50  | 105.50  | 105.50  | 1.000000e+01 |
+| 25%     | 1186.85 | 1185.01 | 1194.68 | 1171.79 | 5.272635e+06 |
+| 50%     | 1831.68 | 1832.42 | 1842.81 | 1813.92 | 2.375030e+07 |
+| 75%     | 2772.39 | 2779.86 | 2807.02 | 2744.36 | 1.144936e+08 |
+| max     | 6057.43 | 6092.06 | 6124.04 | 6040.71 | 8.571328e+08 |
+
+#### 3.5.4 绘制每日成交量趋势图
+
+```python
+sh.loc["2007-01-01":]["volume"].plot(figsize=(12,6))
+plt.title('上证指数2007-2018年日成交量图')
+plt.xlabel('日期')
+plt.show()
+```
+
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/volume_plot.png?raw=true)
+
+#### 3.5.5 绘制均线趋势图
+
+```python
+#这里的平均线是通过自定义函数，手动设置20,52,252日均线
+#移动平均线：
+ma_day = [20,52,252]
+
+for ma in ma_day:
+    column_name = "%s日均线" %(str(ma))
+    sh[column_name] =sh["close"].rolling(ma).mean()
+#sh.tail(3)
+#画出2010年以来收盘价和均线图
+sh.loc['2010-10-8':][["close",
+"20日均线","52日均线","252日均线"]].plot(figsize=(12,6))
+plt.title('2010-2018上证指数走势图')
+plt.xlabel('日期')
+plt.show()
+```
+
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/average_price_plot.png?raw=true)
+
+#### 3.5.6 绘制日收益率趋势图
+
+```
+#2005年之前的数据噪音太大，主要分析2005年之后的
+sh["日收益率"] = sh["close"].pct_change()
+sh["日收益率"].loc['2005-01-01':].plot(figsize=(12,4))
+plt.xlabel('日期')
+plt.ylabel('收益率')
+plt.title('2005-2018年上证指数日收益率')
+plt.show()
+```
+
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/daily_return_plot.png?raw=true)
+
+#### 3.5.7 分析多股票
+
+```python
+#分析下常见的几个股票指数
+stocks={'上证指数':'sh','深证指数':'sz','沪深300':'hs300',
+        '上证50':'sz50','中小板指':'zxb','创业板':'cyb'}
+stock_index=pd.DataFrame()
+for stock in stocks.values():
+    stock_index[stock]=ts.get_k_data(stock,ktype='D', 
+autype='qfq', start='2005-01-01')['close']
+#stock_index.head()
+#计算这些股票指数每日涨跌幅
+tech_rets = stock_index.pct_change()[1:]
+print(tech_rets)
+#tech_rets.head()
+#收益率描述性统计
+tech_rets.describe()
+#结果不在此报告
+#均值其实都大于0
+tech_rets.mean()*100 #转换为%
+```
+|    | sh        | sz        | hs300     | sz50      | zxb       | cyb       |
+|----|-----------|-----------|-----------|-----------|-----------|-----------|
+| 1  | 0.007379  | 0.009070  | -0.008002 | 0.005272  | 0.004482  | 0.001279  |
+| 2  | -0.009992 | -0.007904 | -0.016797 | -0.010741 | -0.025450 | 0.029334  |
+| 3  | 0.004292  | 0.002265  | 0.022683  | 0.001362  | 0.009146  | 0.040661  |
+| 4  | 0.006146  | 0.008941  | -0.013917 | 0.011377  | -0.044799 | -0.002164 |
+| 5  | 0.004040  | 0.002233  | -0.013060 | 0.005846  | 0.014144  | 0.009998  |
+| ...| ...       | ...       | ...       | ...       | ...       | ...       |
+| 3524 | 0.001933 | 0.007996  | 0.000000  | 0.002929  | 0.000000  | 0.000000  |
+| 3525 | -0.025805 | -0.027207 | 0.000000  | -0.021746 | 0.000000  | 0.000000  |
+| 3526 | -0.001749 | 0.001361  | 0.000000  | -0.005508 | 0.000000  | 0.000000  |
+| 3527 | -0.004416 | -0.003548 | 0.000000  | -0.000961 | 0.000000  | 0.000000  |
+
+#### 3.5.8 绘制相关系数
+
+```python
+# jointplot这个函数可以画出两个指数的”相关性系数“，或者说皮尔森相关系数
+sns.jointplot('sh','sz',data=tech_rets)
+```
+
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/rets_plot.png?raw=true)
+
+#### 3.5.9 绘制多数据集相关系数
+
+```python
+# 成对的比较不同数据集之间的相关性，而对角线则会显示该数据集的直方图
+sns.pairplot(tech_rets.iloc[:,3:].dropna())
+```
+
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/multi_rets_plot.png?raw=true)
+
+#### 3.5.10 收益率与风险
+
+```python
+#构建一个计算股票收益率和标准差的函数
+#默认起始时间为'2005-01-01'
+def return_risk(stocks,startdate='2005-01-01'):
+    close=pd.DataFrame()
+    for stock in stocks.values():
+        close[stock]=ts.get_k_data(stock,ktype='D', 
+     autype='qfq', start=startdate)['close']
+    tech_rets = close.pct_change()[1:]
+    rets = tech_rets.dropna()
+    ret_mean=rets.mean()*100
+    ret_std=rets.std()*100
+    return ret_mean,ret_std
+
+#画图函数
+def plot_return_risk():
+    ret,vol=return_risk(stocks)
+    color=np.array([ 0.18, 0.96, 0.75, 0.3, 0.9,0.5])
+    plt.scatter(ret, vol, marker = 'o', 
+    c=color,s = 500,cmap=plt.get_cmap('Spectral'))
+    plt.xlabel("日收益率均值%")     
+    plt.ylabel("标准差%")
+    for label,x,y in zip(stocks.keys(),ret,vol):
+        plt.annotate(label,xy = (x,y),xytext = (20,20),
+            textcoords = "offset points",
+             ha = "right",va = "bottom",
+            bbox = dict(boxstyle = 'round,pad=0.5',
+            fc = 'yellow', alpha = 0.5),
+                arrowprops = dict(arrowstyle = "->",
+                    connectionstyle = "arc3,rad=0"))
+stocks={'上证指数':'sh','深证指数':'sz','沪深300':'hs300',
+        '上证50':'sz50','中小板指数':'zxb','创业板指数':'cyb'}
+plot_return_risk()
+```
+
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/return_risk.png?raw=true)
+
+```python
+stocks={'中国平安':'601318','格力电器':'000651',
+        '招商银行':'600036','恒生电子':'600570',
+        '中信证券':'600030','贵州茅台':'600519'}
+startdate='2018-01-01'
+plot_return_risk()
+```
+
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/return_risk_2.png?raw=true)
+
+#### 3.5.11 蒙特卡洛模拟
+
+蒙特卡洛模拟是一种统计学方法，用来模拟数据的演变趋势。蒙特卡洛模拟是在二战期间，当时在原子弹研制的项目中，为了模拟裂变物质的中子随机扩散现象，由美国数学家冯·诺伊曼和乌拉姆等发明的一种统计方法。之所以起名叫蒙特卡洛模拟，是因为蒙特卡洛在是欧洲袖珍国家摩纳哥一个城市，这个城市在当时是非常著名的一个赌城。因为赌博的本质是算概率，而蒙特卡洛模拟正是以概率为基础的一种方法，所以用赌城的名字为这种方法命名。蒙特卡洛模拟每次输入都随机选择输入值，通过大量的模拟，最终得出一个累计概率分布图。
+
+```python
+df=ts.get_k_data('sh',ktype='D', autype='qfq', 
+                 start='2005-01-01')
+df.index=pd.to_datetime(df.date)
+tech_rets = df.close.pct_change()[1:]
+rets = tech_rets.dropna()
+#rets.head()
+# 结果解释：95%的置信我们每天不会损失超过0.0264...
+rets.quantile(0.05)
+# -0.02618228439478043
+```
+
+#### 3.5.12 蒙特卡洛模拟价格分布图
+
+```python
+def monte_carlo(start_price,days,mu,sigma):
+    dt=1/days
+    price = np.zeros(days)
+    price[0] = start_price
+    shock = np.zeros(days)
+    drift = np.zeros(days)
+
+    for x in range(1,days):
+        shock[x] = np.random.normal(loc=mu * dt,
+                scale=sigma * np.sqrt(dt))
+        drift[x] = mu * dt
+        price[x] = price[x-1] + (price[x-1] *
+                (drift[x] + shock[x]))
+    return price
+#模拟次数
+runs = 10000
+start_price = 2641.34 #今日收盘价
+days = 252
+mu=rets.mean()
+sigma=rets.std()
+simulations = np.zeros(runs)
+
+for run in range(runs):
+    simulations[run] = monte_carlo(start_price,
+      days,mu,sigma)[days-1]
+q = np.percentile(simulations,1)
+plt.figure(figsize=(8,6))
+plt.hist(simulations,bins=50,color='grey')
+plt.figtext(0.6,0.8,s="初始价格: %.2f" % start_price)
+plt.figtext(0.6,0.7,"预期价格均值: %.2f" %simulations.mean())
+plt.figtext(0.15,0.6,"q(0.99: %.2f)" %q)
+plt.axvline(x=q,linewidth=6,color="r")
+plt.title("经过 %s 天后上证指数模拟价格分布图" %days,weight="bold")
+# Text(0.5,1,'经过 252 天后上证指数模拟价格分布图')
+```
+
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/monte_plot.png?raw=true)
+
+#### 3.5.13 借用期权定价里对未来股票走势的假定来进行蒙特卡洛模拟
+
+```python
+import numpy as np
+from time import time
+np.random.seed(2018)
+t0=time()
+S0=2641.34
+T=1.0; 
+r=0.05; 
+sigma=rets.std()
+M=50;
+dt=T/M; 
+I=250000
+S=np.zeros((M+1,I))
+S[0]=S0
+for t in range(1,M+1):
+    z=np.random.standard_normal(I)
+    S[t]=S[t-1]*np.exp((r-0.5*sigma**2)*dt+
+          sigma*np.sqrt(dt)*z)
+s_m=np.sum(S[-1])/I
+tnp1=time()-t0
+# print('经过250000次模拟，得出1年以后上证指数的预期平均收盘价为：%.2f',%s_m)
+# 经过250000次模拟，得出1年以后上证指数的预期平均收盘价为：2776.85
+%matplotlib inline
+import matplotlib.pyplot as plt
+plt.figure(figsize=(10,6))
+plt.plot(S[:,:10])
+plt.grid(True)
+plt.title('上证指数蒙特卡洛模拟其中10条模拟路径图')
+plt.xlabel('时间')
+plt.ylabel('指数')
+plt.show()
+```
+
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/monte_2_plot.png?raw=true)
+
+#### 3.5.16 上证指数蒙特卡洛模拟
+
+```python
+plt.figure(figsize=(10,6))
+plt.hist(S[-1], bins=120)
+plt.grid(True)
+plt.xlabel('指数水平')
+plt.ylabel('频率')
+plt.title('上证指数蒙特卡洛模拟')
+# Text(0.5,1,'上证指数蒙特卡洛模拟')
+```
+
+![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/monte_3_plot.png?raw=true)
 
 ## 4 搭建金融知识图谱
 
@@ -510,8 +1075,6 @@ for i in holder.values:
    print('TS代码:'+str(i[0]),'股东名称:'+str(i[1]),'持股数量:'+str(i[2]))
    graph.create(a)
 ```
-
-
 
 ![](https://github.com/jm199504/Financial-Knowledge-Graphs/blob/master/images/create_node.png?raw=true)
 
